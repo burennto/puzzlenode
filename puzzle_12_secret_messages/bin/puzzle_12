@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << File.expand_path('../../lib', __FILE__)
+require 'puzzle_12'
+
+INPUT_FILE = '../data/complex_cipher.txt'
+
+# Read file into an array, each line corresponds to one element
+input = File.read(INPUT_FILE).split("\n")
+
+encrypted_keyword = input.shift
+input.shift
+
+ciphertext = input.join("\n")
+
+# Brute-force calculation of keyword
+# (0..25).each do |shift|
+# 	keyword = CaesarCipher.decrypt(:shift => shift, :ciphertext => encrypted_keyword)
+# 	puts "#{shift} => #{keyword}"
+# end
+
+# Using a shift value of 17 gives the keyword 'DANGEROUS'
+plaintext = VigenereCipher.decrypt(:keyword => 'DANGEROUS', :ciphertext => ciphertext)
+
+# Output to file for submission
+File.open('../data/complex_out.txt', 'w') { |f| f.write(plaintext) }
