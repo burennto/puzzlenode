@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << File.expand_path('../../lib', __FILE__)
+$LOAD_PATH << File.expand_path('../../..', __FILE__)
+require 'puzzle_04'
+
+INPUT_FILE = '../data/input.txt'
+
+commands = []
+
+# Read and process each conveyor (separated by space)
+File.foreach(INPUT_FILE, "\n\n").each do |conveyor_lines|
+  lines = conveyor_lines.split("\n")
+
+  north, south = lines[0], lines[2]
+  position     = lines[1]
+
+  conveyor = Conveyor.new(:north => north, :south => south)
+
+  commands << Robot.new.choose_direction(:conveyor => conveyor, :position => position)
+end
+
+# Output to file for submission
+File.open('../data/output.txt', 'w') { |f| f.write(commands.join("\n")) }
